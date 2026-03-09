@@ -3,146 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo Interactivo 3D</title>
+    <title>Catálogo ONCE X Steelcase</title>
+    <!-- Componente Model Viewer de Google -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --accent-color: #3498db;
+            /* Color extraído del logo: Gris corporativo Steelcase */
+            --steelcase-gray: #666666; 
+            --dark-gray: #333333;
+            --light-bg: #f4f4f4;
+            --accent-line: #999999;
         }
 
         body { 
             margin: 0; 
-            font-family: 'Segoe UI', sans-serif; 
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
             display: flex; 
             height: 100vh; 
-            background-color: #f5f5f5;
+            background-color: var(--light-bg);
+            color: var(--dark-gray);
         }
 
-        /* Panel Lateral */
+        /* Barra Lateral Izquierda */
         .sidebar {
-            width: 320px;
+            width: 350px;
             background: white;
-            padding: 30px;
-            box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+            padding: 25px;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
             z-index: 10;
+            overflow-y: auto;
         }
 
-        h1 { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 20px; }
+        .brand-header {
+            border-bottom: 2px solid var(--steelcase-gray);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
 
-        label { font-weight: bold; margin-bottom: 8px; display: block; color: #666; }
+        .brand-header .brand-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--steelcase-gray);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
 
-        /* Estilo del Desplegable */
+        /* Estilo para el logo subido */
+        .brand-logo {
+            height: 28px; 
+            width: auto;
+            display: block;
+        }
+
+        /* Selector Desplegable */
+        .control-group { margin-bottom: 25px; }
+        label { font-size: 0.8rem; font-weight: bold; text-transform: uppercase; color: #999; margin-bottom: 8px; display: block; }
+        
         select {
             width: 100%;
             padding: 12px;
-            border-radius: 8px;
-            border: 2px solid #ddd;
+            border-radius: 4px;
+            border: 1px solid #ccc;
             font-size: 1rem;
-            outline: none;
+            background: #fff;
             cursor: pointer;
-            transition: border-color 0.3s;
+            outline: none;
+            color: var(--dark-gray);
         }
 
-        select:focus { border-color: var(--accent-color); }
-
-        /* Cuadro de Descripción */
-        .description-box {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 12px;
-            border-left: 4px solid var(--accent-color);
+        select:focus {
+            border-color: var(--steelcase-gray);
         }
 
-        .description-box h2 { font-size: 1.1rem; margin-top: 0; }
-        .description-box p { font-size: 0.95rem; line-height: 1.5; color: #444; }
+        /* Sección de Texto */
+        .info-section { margin-bottom: 30px; }
+        #desc-title { font-size: 1.3rem; margin: 0 0 10px 0; color: var(--dark-gray); font-weight: 600; }
+        #desc-text { font-size: 0.95rem; line-height: 1.6; color: #555; }
 
-        /* Visor 3D */
-        .viewer-container {
+        /* Carrusel de Imágenes */
+        .carousel-container {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .carousel-title { font-size: 0.8rem; font-weight: bold; margin-bottom: 12px; color: #999; text-transform: uppercase; }
+        
+        .carousel {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scroll-behavior: smooth;
+        }
+
+        .carousel::-webkit-scrollbar { height: 4px; }
+        .carousel::-webkit-scrollbar-track { background: #f1f1f1; }
+        .carousel::-webkit-scrollbar-thumb { background: #bbb; border-radius: 4px; }
+
+        .carousel img {
+            width: 110px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            background: #eee;
+            flex-shrink: 0;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .carousel img:hover { border-color: var(--steelcase-gray); }
+
+        /* Visor 3D Principal */
+        .viewer-area {
             flex-grow: 1;
+            background-color: #ffffff;
             position: relative;
         }
 
         model-viewer {
             width: 100%;
             height: 100%;
-            background-color: #eee;
+            --progress-bar-color: var(--steelcase-gray);
+            background-color: #ffffff;
         }
 
-        /* Adaptabilidad para móviles */
-        @media (max-width: 768px) {
+        /* Responsive */
+        @media (max-width: 850px) {
             body { flex-direction: column; }
-            .sidebar { width: auto; height: auto; order: 2; padding: 20px; }
-            .viewer-container { height: 60vh; order: 1; }
+            .sidebar { width: auto; height: 45vh; order: 2; padding: 20px; }
+            .viewer-area { height: 55vh; order: 1; }
+            .brand-logo { height: 22px; }
         }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <h1>Mobiliario Pro</h1>
+        <div class="brand-header">
+            <div class="brand-title">
+                <span>ONCE X</span>
+                <!-- Imagen del logo proporcionada por el usuario -->
+                <img src="SC_Core_424_LG.jpg" alt="Steelcase Logo" class="brand-logo">
+            </div>
+        </div>
         
-        <label for="model-selector">Selecciona un modelo:</label>
-        <select id="model-selector" onchange="actualizarEscena()">
-            <option value="bench.glb">Bench Operativo</option>
-            <option value="despacho_3.glb">Despacho Ejecutivo 3</option>
-            <option value="mesa_reunion_pua.glb">Mesa de Reunión Púa</option>
-        </select>
+        <div class="control-group">
+            <label for="model-selector">Configuración de Producto</label>
+            <select id="model-selector" onchange="actualizarTodo()">
+                <option value="bench.glb">Bench Operativo</option>
+                <option value="despacho_3.glb">Despacho Ejecutivo 3</option>
+                <option value="mesa_reunion_pua.glb">Mesa Reunión Púa</option>
+            </select>
+        </div>
 
-        <div class="description-box">
-            <h2 id="desc-title">Bench Operativo</h2>
-            <p id="desc-text">Sistema de mesas compartidas diseñado para optimizar espacios de trabajo colaborativos. Acabados ergonómicos y gestión de cableado integrada.</p>
+        <div class="info-section">
+            <h2 id="desc-title">Cargando...</h2>
+            <p id="desc-text">Por favor, espera mientras se carga la información del mobiliario.</p>
+        </div>
+
+        <div class="carousel-container">
+            <div class="carousel-title">Galería de Referencia</div>
+            <div id="image-carousel" class="carousel">
+                <!-- Imágenes dinámicas -->
+            </div>
         </div>
     </div>
 
-    <div class="viewer-container">
-        <model-viewer id="visor"
+    <div class="viewer-area">
+        <model-viewer id="main-visor"
             src="bench.glb" 
-            alt="Visualizador de muebles 3D" 
+            alt="Mobiliario 3D Steelcase" 
             auto-rotate 
             camera-controls 
-            shadow-intensity="1"
+            shadow-intensity="1.2"
+            exposure="0.8"
+            shadow-softness="1"
             touch-action="pan-y">
         </model-viewer>
     </div>
 
     <script>
-        // Objeto con las descripciones de cada modelo
-        const infoModelos = {
+        // BASE DE DATOS DE LOS MODELOS Y CONTENIDO
+        const database = {
             "bench.glb": {
                 titulo: "Bench Operativo",
-                descripcion: "Sistema de mesas compartidas diseñado para optimizar espacios de trabajo colaborativos. Acabados ergonómicos y gestión de cableado integrada."
+                descripcion: "Sistema de estaciones de trabajo configurables Steelcase. Diseñado para optimizar la colaboración en espacios abiertos, manteniendo la gestión eficiente de cableado y la ergonomía del usuario.",
+                imagenes: [
+                    "https://picsum.photos/id/20/200/150", 
+                    "https://picsum.photos/id/21/200/150", 
+                    "https://picsum.photos/id/22/200/150"
+                ]
             },
             "despacho_3.glb": {
                 titulo: "Despacho Ejecutivo 3",
-                descripcion: "Conjunto de alta dirección con acabados en madera premium. Incluye mesa principal de gran formato y ala auxiliar para reuniones privadas."
+                descripcion: "Conjunto directivo premium que proyecta profesionalismo y solidez. Superficies de trabajo amplias con acabados de alta calidad y detalles en metal que siguen la línea estética de Steelcase.",
+                imagenes: [
+                    "https://picsum.photos/id/24/200/150",
+                    "https://picsum.photos/id/25/200/150",
+                    "https://picsum.photos/id/26/200/150"
+                ]
             },
             "mesa_reunion_pua.glb": {
-                titulo: "Mesa de Reunión Púa",
-                descripcion: "Mesa de diseño orgánico con forma de púa, ideal para fomentar la comunicación en equipos creativos. Capacidad para 6-8 personas."
+                titulo: "Mesa Reunión Púa",
+                descripcion: "Diseño ergonómico que facilita la interacción visual. Esta mesa de reunión es ideal para espacios de toma de decisiones, permitiendo una integración fluida de tecnología y conectividad.",
+                imagenes: [
+                    "https://picsum.photos/id/30/200/150",
+                    "https://picsum.photos/id/31/200/150",
+                    "https://picsum.photos/id/32/200/150"
+                ]
             }
         };
 
-        function actualizarEscena() {
+        function actualizarTodo() {
             const selector = document.getElementById('model-selector');
-            const visor = document.getElementById('visor');
+            const visor = document.getElementById('main-visor');
             const titulo = document.getElementById('desc-title');
             const texto = document.getElementById('desc-text');
+            const carrusel = document.getElementById('image-carousel');
             
-            const modeloSeleccionado = selector.value;
-            const info = infoModelos[modeloSeleccionado];
+            const modeloId = selector.value;
+            const data = database[modeloId];
 
-            // Cambiar modelo 3D
-            visor.src = modeloSeleccionado;
+            if (!data) return;
 
-            // Cambiar textos
-            titulo.innerText = info.titulo;
-            texto.innerText = info.descripcion;
+            // Cambiar Modelo 3D
+            visor.src = modeloId;
+
+            // Cambiar Textos
+            titulo.innerText = data.titulo;
+            texto.innerText = data.descripcion;
+
+            // Reconstruir Carrusel
+            carrusel.innerHTML = ""; 
+            data.imagenes.forEach(url => {
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = "Vista de " + data.titulo;
+                img.onclick = () => window.open(url, '_blank');
+                carrusel.appendChild(img);
+            });
         }
+
+        // Inicialización
+        window.onload = actualizarTodo;
     </script>
 
 </body>
