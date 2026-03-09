@@ -9,7 +9,7 @@
     
     <style>
         :root {
-            /* Color extraído del logo: Gris corporativo Steelcase */
+            /* Color extraído del logo de Steelcase: Gris corporativo */
             --steelcase-gray: #666666; 
             --dark-gray: #333333;
             --light-bg: #f4f4f4;
@@ -41,26 +41,33 @@
             border-bottom: 2px solid var(--steelcase-gray);
             margin-bottom: 25px;
             padding-bottom: 15px;
-            display: flex;
-            align-items: center;
         }
 
-        .brand-header .brand-title {
+        .brand-title {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 1.2rem;
-            margin: 0;
-            color: var(--steelcase-gray);
-            text-transform: uppercase;
-            font-weight: 700;
+            justify-content: flex-start;
+            gap: 10px;
         }
 
-        /* Estilo para el logo subido */
-        .brand-logo {
-            height: 28px; 
+        /* Estilos para los logotipos */
+        .brand-logo-once {
+            height: 30px; 
             width: auto;
             display: block;
+        }
+
+        .brand-logo-steelcase {
+            height: 24px; 
+            width: auto;
+            display: block;
+        }
+
+        .collab-x {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--steelcase-gray);
+            margin: 0 5px;
         }
 
         /* Selector Desplegable */
@@ -142,7 +149,8 @@
             body { flex-direction: column; }
             .sidebar { width: auto; height: 45vh; order: 2; padding: 20px; }
             .viewer-area { height: 55vh; order: 1; }
-            .brand-logo { height: 22px; }
+            .brand-logo-once { height: 22px; }
+            .brand-logo-steelcase { height: 18px; }
         }
     </style>
 </head>
@@ -151,9 +159,11 @@
     <div class="sidebar">
         <div class="brand-header">
             <div class="brand-title">
-                <span>ONCE X</span>
-                <!-- Imagen del logo proporcionada por el usuario -->
-                <img src="SC_Core_424_LG.jpg" alt="Steelcase Logo" class="brand-logo">
+                <!-- Logotipo ONCE -->
+                <img src="ONCE.jpg" alt="ONCE Logo" class="brand-logo-once">
+                <span class="collab-x">X</span>
+                <!-- Logotipo Steelcase -->
+                <img src="SC_Core_424_LG.jpg" alt="Steelcase Logo" class="brand-logo-steelcase">
             </div>
         </div>
         
@@ -197,7 +207,7 @@
         const database = {
             "bench.glb": {
                 titulo: "Bench Operativo",
-                descripcion: "Sistema de estaciones de trabajo configurables Steelcase. Diseñado para optimizar la colaboración en espacios abiertos, manteniendo la gestión eficiente de cableado y la ergonomía del usuario.",
+                descripcion: "Sistema de estaciones de trabajo configurables. Diseñado para optimizar la colaboración en espacios abiertos bajo los estándares de accesibilidad y ergonomía de la colaboración ONCE X Steelcase.",
                 imagenes: [
                     "https://picsum.photos/id/20/200/150", 
                     "https://picsum.photos/id/21/200/150", 
@@ -206,7 +216,7 @@
             },
             "despacho_3.glb": {
                 titulo: "Despacho Ejecutivo 3",
-                descripcion: "Conjunto directivo premium que proyecta profesionalismo y solidez. Superficies de trabajo amplias con acabados de alta calidad y detalles en metal que siguen la línea estética de Steelcase.",
+                descripcion: "Conjunto directivo que combina solidez y diseño inclusivo. Superficies de trabajo amplias con acabados de alta calidad para entornos de alta dirección.",
                 imagenes: [
                     "https://picsum.photos/id/24/200/150",
                     "https://picsum.photos/id/25/200/150",
@@ -215,7 +225,7 @@
             },
             "mesa_reunion_pua.glb": {
                 titulo: "Mesa Reunión Púa",
-                descripcion: "Diseño ergonómico que facilita la interacción visual. Esta mesa de reunión es ideal para espacios de toma de decisiones, permitiendo una integración fluida de tecnología y conectividad.",
+                descripcion: "Diseño ergonómico único que facilita la interacción y el contacto visual. Ideal para facilitar la comunicación fluida en equipos de trabajo diversos.",
                 imagenes: [
                     "https://picsum.photos/id/30/200/150",
                     "https://picsum.photos/id/31/200/150",
