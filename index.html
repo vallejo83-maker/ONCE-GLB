@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Mobiliario 3D</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #ececec; color: #333; overflow: hidden; }
+        
+        /* Visor que ocupa toda la pantalla */
+        model-viewer {
+            width: 100vw;
+            height: 100vh;
+            --poster-color: transparent;
+        }
+
+        /* Contenedor de botones flotante */
+        .controls {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            z-index: 10;
+        }
+
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 10px;
+            background: #ffffff;
+            color: #444;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        button:hover {
+            background: #f8f8f8;
+            transform: translateY(-2px);
+        }
+        
+        /* Estilo para el botón del modelo que se está viendo */
+        button.active {
+            background: #000;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        /* Indicador de carga */
+        #lazy-load-poster {
+            position: absolute;
+            left: 0; right: 0; top: 0; bottom: 0;
+            display: flex; justify-content: center; align-items: center;
+            background: #ececec;
+        }
+    </style>
+</head>
+<body>
+
+    <model-viewer id="main-visor"
+        src="bench.glb" 
+        alt="Mobiliario 3D" 
+        auto-rotate 
+        camera-controls 
+        shadow-intensity="1.5"
+        shadow-softness="1"
+        exposure="1"
+        touch-action="pan-y">
+        
+        <div class="controls">
+            <button class="active" onclick="cambiarModelo(this, 'bench.glb')">Bench</button>
+            <button onclick="cambiarModelo(this, 'despacho_3.glb')">Despacho 3</button>
+            <button onclick="cambiarModelo(this, 'mesa_reunion_pua.glb')">Mesa Reunión Púa</button>
+        </div>
+
+    </model-viewer>
+
+    <script>
+        function cambiarModelo(elemento, nombreArchivo) {
+            const visor = document.querySelector('#main-visor');
+            
+            // Cambia el archivo del visor
+            visor.src = nombreArchivo;
+            
+            // Actualiza visualmente el botón activo
+            document.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+            elemento.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
